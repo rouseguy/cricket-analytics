@@ -9,6 +9,8 @@ python = "^3.9"
 streamlit = "^1.5.1"
 altair = "^4.2.0"
 pandas = "^1.4.1"
+"backports.zoneinfo" = "^0.2.1"
+importlib-resources = "^5.4.0"
 
 [tool.poetry.scripts]
 start = "ipl.runserver:main"
