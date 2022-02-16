@@ -3,4 +3,4 @@
 > cd cricket-analysis \
 > pip install poetry \
 > poetry install \
-> poetry run start \
+> poetry run start 
