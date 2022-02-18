@@ -1,25 +1,41 @@
 import streamlit as st
 import pandas as pd
-from ipl.utils import *
-from ipl.modules import *
+from utils import *
+from modules import *
 import numpy as np
 import altair as alt
+from teamutils import *
+from teammodules import *
 
+select=st.sidebar.selectbox('Cricket Analysis',['Team Stats', 'Player Stats'])
 
+if select=='Team Stats':
+    select = st.sidebar.selectbox('Team Analysis', ['Toss Wins','Lucky Venues','Comparison between Teams','Total Runs', 'Win Count' ])
+    if select == 'Comparison between Teams':
+        compare()
+    elif select == 'Lucky Venues':
+        luckvenue()
+    elif select == 'Total Runs':
+        totalruns()
+    elif select == 'Toss Wins':
+        tosswins()
+    elif select == 'Win Count':
+        wincount()
 
-select = st.sidebar.selectbox('Analysis', ['Player Carrer','Overall Stats','Seasonal Stats', 'One Vs One','Over Stats','Win Prediction' ])
-if select == 'Player Carrer':
-    player_carrer()
-elif select == 'Seasonal Stats':
-    sesonal_stat()
-elif select == 'One Vs One':
-    one_vs_one()
-elif select == 'Overall Stats':
-    overall_stat()
-elif select == 'Over Stats':
-    over_stats()
-elif select == 'Win Prediction':
-    win_predict_player()
+else:
+    select = st.sidebar.selectbox('Analysis', ['Player Carrer','Overall Stats','Seasonal Stats', 'One Vs One','Over Stats','Win Prediction' ])
+    if select == 'Player Carrer':
+        player_carrer()
+    elif select == 'Seasonal Stats':
+        sesonal_stat()
+    elif select == 'One Vs One':
+        one_vs_one()
+    elif select == 'Overall Stats':
+        overall_stat()
+    elif select == 'Over Stats':
+        over_stats()
+    elif select == 'Win Prediction':
+        win_predict_player()
 
     
 

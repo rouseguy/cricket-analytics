@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-from ipl.utils import *
-from ipl.modules import *
+from utils import *
+from modules import *
 import numpy as np
 import altair as alt
 
