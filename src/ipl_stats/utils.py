@@ -182,6 +182,7 @@ def one_vs_one(batsman,ball,match, game):
 
 
 def decide_batsman( ball, match,team ,player = None, runs = None, opp = None, venue = None, thres = None):
+    win_percent = 0
     if player:
         ball = ball[ball['batsman'] == player]    
     else:
@@ -224,7 +225,7 @@ def decide_batsman( ball, match,team ,player = None, runs = None, opp = None, ve
 
 def decide_bowler( ball, match,team ,player = None, wickets = 1, opp = None, venue = None, thres = None):
     
-    win_percent = -1
+    win_percent = 0
     if player:
         ball = ball[ball['bowler'] == player]    
     else:
