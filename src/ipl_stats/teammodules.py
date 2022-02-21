@@ -16,8 +16,12 @@ import plotly.express as px
 import plotly.graph_objs as go
 
 
-matches = pd.read_csv('matches.csv')
-deliveries = pd.read_csv('deliveries.csv')
+absolute_path = os.path.abspath(__file__)
+path = os.path.dirname(absolute_path)
+
+
+matches = pd.read_csv(path+'/matches.csv')
+deliveries = pd.read_csv(path+'/deliveries.csv')
 season_list = ['2007/08','2009','2009/10','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020/21','2021']
 season_dict = {2008:'2007/08',2009:'2009',2010:'2009/10',2011:'2011',2012:'2012',2013:'2013',2014:'2014',2015:'2015',2016:'2016',2017:'2017',2018:'2018',2019:'2019',2020:'2020/21',2021:'2021'}
 team_dict   =  { 'Delhi Capitals':'Delhi Daredevils' , 'Punjab Kings':'Kings XI Punjab' }
