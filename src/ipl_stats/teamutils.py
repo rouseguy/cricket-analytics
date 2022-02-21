@@ -1,10 +1,16 @@
 import streamlit as st
+from streamlit_folium import folium_static
+import folium
 import altair as alt
 import numpy as np
 import pandas as pd
-import os
 import matplotlib.pyplot as plt
 import seaborn as sns
+import dask.dataframe as dd
+import datashader as ds
+from matplotlib.cm import hot, viridis, Blues, plasma, magma, Greens
+import datashader.transfer_functions as tf
+import plotly.express as px
 sns.set()
 import chart_studio.plotly as py
 import cufflinks as cf
@@ -13,15 +19,12 @@ cf.go_offline()
 import plotly.express as px
 import plotly.graph_objs as go
 
-absolute_path = os.path.abspath(__file__)
-path = os.path.dirname(absolute_path)
-
-matches = pd.read_csv(path+'/matches.csv')
-deliveries = pd.read_csv(path+'/deliveries.csv')
-matches.replace({'Sunrisers Hyderabad':'Hyderabad (Sunriser/Chargers)','Deccan Chargers':'Hyderabad (Sunriser/Chargers)',\
-'Rising Pune Supergiants':'Pune (Supergiant/ Warriors)','Delhi Daredevils':'Delhi (Capitals/ Daredevils)',\
-'Delhi Capitals':'Delhi (Capitals/ Daredevils)','Pune Warriors':'Pune (Supergiant/ Warriors)','Punjab Kings':'Kings XI Punjab',
-'Rising Pune Supergiant':'Pune (Supergiant/ Warriors)'}, inplace= True)
+matches = pd.read_csv('matches.csv')
+deliveries = pd.read_csv('deliveries.csv')
+matches.replace({'Sunrisers Hyderabad':'Hyderabad Sunriser','Deccan Chargers':'Hyderabad Sunriser',\
+'Rising Pune Supergiants':'Pune Supergiant','Delhi Daredevils':'Delhi Capitals',\
+'Pune Warriors':'Pune Warriors','Punjab Kings':'Kings XI Punjab',
+'Rising Pune Supergiant':'Pune Supergiant'}, inplace= True)
 
 @st.cache(hash_funcs={dict: lambda _: None})
 def make_fig():
@@ -35,7 +38,8 @@ def get_team1_name():
     return np.unique(matches['team1'].values) 
 def get_team2_name():
     return np.unique(matches['team2'].values) 
-
+def get_city_name():
+    return np.unique(matches['country'].values)
     
 
 def comparison(team1,team2):
@@ -44,16 +48,7 @@ def comparison(team1,team2):
     sns.countplot(x='season',hue='winner',data=compare)    
     return st.pyplot(fig)
     
-def lucky(matches,team):
-    return matches[matches['winner']==team]['venue'].value_counts()
 
- 
-def geth2h(team1,team2):
-    teams = [team1,team2]
-    if team1 in teams and team2 in teams:
-        return True
-    else:
-        return False
 
 def winper():
     winloss = matches[['team1','team2','winner']]
@@ -74,11 +69,24 @@ def winper():
     played = played.sort_values(by='%win',ascending=False)
     return played
     
-    
+def venue(choice):
+    json1 = f"states_india.geojson"
+    m = folium.Map(location=[23.47,77.94], tiles='CartoDB Dark Matter', name="Light Map",
+               zoom_start=5, attr="iplnani.com")
+    win_venue = f"winner.csv"
+    win_venue_data = pd.read_csv(win_venue)
+    choice_selected=choice
+    folium.Choropleth(
+        geo_data=json1,
+        name="choropleth",
+        data=win_venue_data,
+        columns=["state_code",choice_selected],
+        key_on="feature.properties.state_code",
+        fill_color="YlOrRd",
+        fill_opacity=0.7,
+        line_opacity=.1,
+        legend_name=choice_selected
+    ).add_to(m)
+    folium.features.GeoJson('states_india.geojson',name="States", popup=folium.features.GeoJsonPopup(fields=["st_nm"])).add_to(m)
 
-    
-    #return h2h
-    
-    #fig = plt.figure(figsize=(10,5))
-    #sns.countplot(x='winner',hue='df',data=h2h) 
-    
+    folium_static(m, width=700, height=500)

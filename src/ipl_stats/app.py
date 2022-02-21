@@ -14,7 +14,7 @@ if select=='Team Stats':
     if select == 'Comparison between Teams':
         compare()
     elif select == 'Lucky Venues':
-        luckvenue()
+        ven()
     elif select == 'Total Runs':
         totalruns()
     elif select == 'Toss Wins':
