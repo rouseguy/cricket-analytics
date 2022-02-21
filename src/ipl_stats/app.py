@@ -7,6 +7,7 @@ import altair as alt
 from teamutils import *
 from teammodules import *
 
+st.beta_set_page_config(page_title='IPL Stats @iplnani.com')
 select=st.sidebar.selectbox('Cricket Analysis',[ 'Player Stats','Team Stats','Win Prediction'])
 
 if select=='Team Stats':
