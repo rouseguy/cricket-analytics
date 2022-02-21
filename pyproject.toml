@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ipl-stats"
-version = "0.1.2"
+version = "0.1.2.1"
 description = ""
 authors = ["naveengct <naveenrajesh2222@gmail.com>"]
 
